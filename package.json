@@ -6,7 +6,7 @@
   "engines": { "node": ">=22" },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "node dist/index.js",
+    "start": "node dist/src/index.js",
     "dev": "tsx src/index.ts",
     "test": "vitest run",
     "test:integration": "RUN_OPENAI_INTEGRATION=1 vitest run tests/integration.test.ts",

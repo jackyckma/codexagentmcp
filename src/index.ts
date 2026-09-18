@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { isAuthorized } from "./auth.js";
@@ -74,6 +76,7 @@ export async function main(): Promise<void> {
   await startHttp(config);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+const entryArg = process.argv[1] ? path.resolve(process.argv[1]) : "";
+if (entryArg && import.meta.url === pathToFileURL(entryArg).href) {
   main().catch((error) => { process.stderr.write(`${JSON.stringify({ timestamp: new Date().toISOString(), status: "fatal", error: error instanceof Error ? error.message : "Unknown error" })}\n`); process.exit(1); });
 }
